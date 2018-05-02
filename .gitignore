@@ -1,0 +1,6 @@
+node_modules/
+build/
+.vscode
+npm-debug.log
+.npmrc
+yarn-error.log
