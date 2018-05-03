@@ -1,6 +1,6 @@
 {
   "name": "@clarityenglish/couloir-pdf-server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Couloir PDF server",
   "main": "build/router.js",
   "bin": "build/server.js",
