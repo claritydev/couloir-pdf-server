@@ -30,7 +30,7 @@ app.get("/", async (req, res) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(req.query.url);
-    const pdf = await page.pdf({ printBackground: true });
+    const pdf = await page.pdf({ printBackground: true, pageRanges: '1', landscape: true });
     await browser.close();
 
     res.contentType("pdf").send(pdf);
