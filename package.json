@@ -1,6 +1,6 @@
 {
   "name": "@clarityenglish/couloir-pdf-server",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Couloir PDF server",
   "main": "build/router.js",
   "bin": "build/server.js",
@@ -11,7 +11,7 @@
     "start": "build/server.js",
     "test": "mocha --exit -r ts-node/register test/**/*.ts"
   },
-  "author": "Clarity English Ltd",
+  "author": "ClarityEnglish",
   "repository": {
     "type": "git",
     "url": "https://github.com/claritydev/couloir-pdf-server"
