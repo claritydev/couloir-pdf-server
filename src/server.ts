@@ -46,7 +46,14 @@ app.get("/", async (req, res) => {
     console.log(`${(new Date()).toUTCString()}: ${req.query.url}`);
   } catch (err) {
     console.error(err.toString());
-    res.json({ success: false, error: err.toString() }).status(500);
+
+    if (process.env.NODE_ENV === "production") {
+      // Don't give hints as to what went wrong in production
+      res.json({ success: false }).status(500);
+    } else {
+      // In development write the error message
+      res.json({ success: false, error: err.toString() }).status(500);
+    }
   }
 });
 
