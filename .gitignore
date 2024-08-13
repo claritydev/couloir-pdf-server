@@ -1,6 +1,15 @@
 node_modules/
 build/
+dist/
 .vscode
 npm-debug.log
 .npmrc
 yarn-error.log
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
