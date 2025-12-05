@@ -43,7 +43,6 @@ app.get("/", async (req, res) => {
     await page.goto(req.query.url, { waitUntil: "networkidle0" });
     const pdf = await page.pdf({
       printBackground: true,
-      pageRanges: "1",
       landscape: true,
     });
     await browser.close();
