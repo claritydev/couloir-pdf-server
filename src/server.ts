@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import * as yargs from "yargs";
-import express from "express";
+import express, { Response } from "express";
 import * as puppeteer from "puppeteer";
 
 const app = express();
@@ -27,20 +27,30 @@ const argv = yargs
 const { host, port, regexp } = argv;
 
 app.get("/", async (req, res) => {
+  handleRequest(res, req.query.url);
+});
+
+app.post("/", async (req, res) => {
+  handleRequest(res, req.body.url);
+});
+
+app.listen(port, host, () => {
+  console.log(`Started pdf server on http://${host}:${port}`);
+});
+
+async function handleRequest(res: Response, url: unknown) {
   try {
-    if (!req.query.url || typeof req.query.url !== "string") {
+    if (!url || typeof url !== "string") {
       throw new Error(`Invalid url parameter`);
     }
 
-    if (regexp && !new RegExp(regexp).test(req.query.url)) {
-      throw new Error(
-        `${req.query.url} does not match the required format "${regexp}"`
-      );
+    if (regexp && !new RegExp(regexp).test(url)) {
+      throw new Error(`${url} does not match the required format "${regexp}"`);
     }
 
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
-    await page.goto(req.query.url, { waitUntil: "networkidle0" });
+    await page.goto(url, { waitUntil: "networkidle0" });
     const pdf = await page.pdf({
       printBackground: true,
       landscape: true,
@@ -51,7 +61,7 @@ app.get("/", async (req, res) => {
     res.send(Buffer.from(pdf));
 
     // Write a log saying we rendered this
-    console.log(`${new Date().toUTCString()}: ${req.query.url}`);
+    console.log(`${new Date().toUTCString()}: ${url}`);
   } catch (err) {
     console.error(err);
 
@@ -63,8 +73,4 @@ app.get("/", async (req, res) => {
       res.json({ success: false, error: err }).status(500);
     }
   }
-});
-
-app.listen(port, host, () => {
-  console.log(`Started pdf server on http://${host}:${port}`);
-});
+}
